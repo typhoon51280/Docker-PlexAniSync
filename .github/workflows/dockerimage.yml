@@ -2,6 +2,9 @@ name: Docker Image CI
 
 on:
   push:
+    # Publish `master` as Docker `latest` image.
+    branches:
+      - master
     # Publish `v1.2.3` tags as releases.
     tags:
       - v*
@@ -19,7 +22,8 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Image Version
+      - name: Github Image Version
+        id: github
         run: |
           # Strip git ref prefix from version
           VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
@@ -27,6 +31,8 @@ jobs:
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
           # Use Docker `latest` tag convention
           [ "$VERSION" == "master" ] && VERSION=latest
+          echo VERSION=$VERSION
+          echo "::set-output name=version::$VERSION"
         
       - name: Build & Push to Docker Hub
         uses: opspresso/action-docker@master
@@ -34,5 +40,5 @@ jobs:
           USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
           PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
           IMAGE_NAME: "typhoon51280/plexanisync"
-          TAG_NAME: ${{ VERSION }}
+          TAG_NAME: ${{ steps.github.outputs.version }}
           LATEST: "true"
