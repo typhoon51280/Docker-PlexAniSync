@@ -21,4 +21,5 @@ jobs:
           USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
           PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
           IMAGE_NAME: "typhoon51280/plexanisync"
+          TAG_NAME: "latest"
           LATEST: "true"
