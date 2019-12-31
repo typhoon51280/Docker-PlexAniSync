@@ -10,8 +10,12 @@ else
   echo "No custom mapping found"
 fi
 
-while true
-do
+if [ "${INTERVAL}" -gt "0" ]; then
+  while true
+  do
+    (cd /plexanisync && python PlexAniSync.py)
+    sleep ${INTERVAL}
+  done
+else
   (cd /plexanisync && python PlexAniSync.py)
-  sleep ${INTERVAL}
-done
+fi 

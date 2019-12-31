@@ -1,11 +1,11 @@
-FROM python:latest
+FROM python:3-slim
 
 ENV PLEX_SECTION=Anime \
     PLEX_URL=localhost \
     PLEX_TOKEN='' \
     ANI_USERNAME='' \
     ANI_TOKEN='' \
-    INTERVAL=3600
+    INTERVAL=0
 
 ENV PATH="${PATH}:~/.local/bin"
 
